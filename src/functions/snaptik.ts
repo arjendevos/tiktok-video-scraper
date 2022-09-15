@@ -24,6 +24,8 @@ export async function downloadVideo({ username, post }: { username: string; post
         return el.href;
       }
     );
+    console.log('close browser');
+    await browser.close();
 
     // link to file you want to download
     const path = './' + username + '/'; // location to save videos
@@ -54,8 +56,6 @@ export async function downloadVideo({ username, post }: { username: string; post
       .on('error', function (err) {
         throw err;
       });
-
-    await browser.close();
     return;
   } catch (err) {
     await browser.close();

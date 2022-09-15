@@ -15,25 +15,29 @@ dotenv.config();
 })();
 
 async function getVideosWithoutWatermark({ username }: { username: string }) {
-  const account = getAccount({ username });
-  if (!account) {
-    console.log(`${username} does not exists, fetching now`);
-    await fetchProfileVideos({ username });
-    return getVideosWithoutWatermark({ username });
-  }
-
-  if (account.posts.length > account.lastSavedIndex) {
-    console.log(`${username} does exists, downloading now`);
-    for (let i = account.lastSavedIndex; i < account.posts.length; i++) {
-      console.log({ i });
-      await downloadVideo({ username, post: account.posts[i] });
+  try {
+    const account = getAccount({ username });
+    if (!account) {
+      console.log(`${username} does not exists, fetching now`);
+      await fetchProfileVideos({ username });
+      return getVideosWithoutWatermark({ username });
     }
 
-    return;
-  }
+    if (account.posts.length > account.lastSavedIndex) {
+      console.log(`${username} does exists, downloading now`);
+      for (let i = account.lastSavedIndex; i < account.posts.length; i++) {
+        console.log({ i });
+        await downloadVideo({ username, post: account.posts[i] });
+      }
 
-  console.log(`${username} no new videos found`);
-  return;
+      return;
+    }
+
+    console.log(`${username} no new videos found`);
+    return;
+  } catch (err) {
+    return getVideosWithoutWatermark({ username });
+  }
 }
 
 function asyncQuestion(question: string): Promise<string> {
