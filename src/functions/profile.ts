@@ -3,7 +3,7 @@ import { autoScroll, getHost, saveAccount } from '@utils/index';
 import { createBrowserInstance } from '@utils/browser';
 
 export async function fetchProfileVideos({ username }: { username: string }) {
-  const browser = await createBrowserInstance({ host: getHost() });
+  const browser = await createBrowserInstance({ host: getHost(), withProxy: false });
   try {
     const context = await browser.newContext();
 

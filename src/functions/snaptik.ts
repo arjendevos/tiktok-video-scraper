@@ -5,7 +5,7 @@ import { getHost, saveAccount } from '@utils/index';
 import { Post } from '@typesx/index';
 
 export async function downloadVideo({ username, post }: { username: string; post: Post }) {
-  const browser = await createBrowserInstance({ host: getHost() });
+  const browser = await createBrowserInstance({ host: getHost(), withProxy: false });
   try {
     const context = await browser.newContext();
 

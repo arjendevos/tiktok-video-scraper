@@ -5,7 +5,6 @@ import RL from 'readline';
 import { fetchProfileVideos } from '@/functions/profile';
 import { downloadVideo } from '@/functions/snaptik';
 import { getAccount } from '@utils/index';
-import fs from 'fs';
 
 dotenv.config();
 
@@ -18,15 +17,14 @@ async function getVideosWithoutWatermark({ username }: { username: string }) {
   try {
     const account = getAccount({ username });
     if (!account) {
-      console.log(`${username} does not exists, fetching now`);
+      console.log(`${username} does not exists yet, fetching now`);
       await fetchProfileVideos({ username });
       return getVideosWithoutWatermark({ username });
     }
 
     if (account.posts.length > account.lastSavedIndex) {
-      console.log(`${username} does exists, downloading now`);
+      console.log(`${username} does exists already, downloading now`);
       for (let i = account.lastSavedIndex; i < account.posts.length; i++) {
-        console.log({ i });
         await downloadVideo({ username, post: account.posts[i] });
       }
 
@@ -36,6 +34,7 @@ async function getVideosWithoutWatermark({ username }: { username: string }) {
     console.log(`${username} no new videos found`);
     return;
   } catch (err) {
+    console.error('restarting ', err);
     return getVideosWithoutWatermark({ username });
   }
 }

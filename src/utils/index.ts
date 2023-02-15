@@ -13,7 +13,7 @@ export async function autoScroll({ page }: { page: Playwright.Page }) {
     await page.evaluate('window.scrollTo(0, document.body.scrollHeight)');
     const newHeight = await page.evaluate('document.body.scrollHeight');
 
-    console.log({ previousHeight, newHeight });
+    console.log('scrolling...');
     if (newHeight > previousHeight) {
       await page.waitForTimeout(2000);
     } else {
