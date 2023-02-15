@@ -5,8 +5,8 @@
   "scripts": {
     "dev": "ts-node-dev --no-notify --respawn --transpile-only -r tsconfig-paths/register src/main",
     "clean": "rm -rf dist",
-    "build": "yarn clean && tsc",
-    "build-npm": "npm run clean && tsc",
+    "build": "yarn clean && yarn tsc",
+    "build-npm": "npm run clean && yarn tsc",
     "start": "node dist/main"
   },
   "license": "MIT",
@@ -28,6 +28,7 @@
     "random-words": "^1.2.0",
     "request": "^2.88.2",
     "request-promise-native": "^1.0.9",
+    "ts-node": "^10.9.1",
     "user-agents": "^1.0.1102"
   }
 }
